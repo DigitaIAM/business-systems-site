@@ -22,10 +22,39 @@ const toggleZoom = (src) => {
 // Форма заявки
 const form = ref({ name: '', phone: '', company: '', message: '' })
 const isSubmitted = ref(false)
+const isSubmitting = ref(false)
+const submitError = ref(false)
 
-const submitForm = () => {
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgaonbqz'
+
+const submitForm = async () => {
   if (!form.value.name || !form.value.phone) return
-  isSubmitted.value = true
+  isSubmitting.value = true
+  submitError.value = false
+
+  const data = new FormData()
+  data.append('name', form.value.name)
+  data.append('phone', form.value.phone)
+  data.append('company', form.value.company)
+  data.append('message', form.value.message)
+
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      body: data,
+      headers: { Accept: 'application/json' },
+    })
+    if (res.ok) {
+      isSubmitted.value = true
+      form.value = { name: '', phone: '', company: '', message: '' }
+    } else {
+      submitError.value = true
+    }
+  } catch {
+    submitError.value = true
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
@@ -368,9 +397,12 @@ const submitForm = () => {
             <label class="block text-sm font-semibold text-slate-700 mb-2">Ваш вопрос</label>
             <textarea rows="4" v-model="form.message" placeholder="..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
           </div>
-          <button type="submit" class="w-full py-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
-            Отправить заявку
+          <button type="submit" :disabled="isSubmitting" class="w-full py-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30 disabled:opacity-60 disabled:cursor-not-allowed">
+            {{ isSubmitting ? 'Отправка...' : 'Отправить заявку' }}
           </button>
+          <p v-if="submitError" class="text-sm text-rose-600 text-center">
+            Не удалось отправить заявку. Попробуйте ещё раз или напишите нам на почту.
+          </p>
         </form>
       </div>
     </section>
