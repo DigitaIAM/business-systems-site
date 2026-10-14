@@ -1,5 +1,39 @@
-# Vue 3 + Vite
+# DigitaIAM — бизнес-системы
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Лендинг компании **DigitaIAM**, разрабатывающей корпоративный софт для автоматизации бизнес-процессов.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Продукты
+
+- **Dori.pro** — облачная система управления аптечной сетью: POS-кассы, склад, автозакупки, автораспределение товара по аптекам (FEFO), логистика, отчётность и KPI.
+- **Trucks.land** — облачная TMS для грузоперевозок: заказы, живой трекинг, взаиморасчёты с владельцами тягачей и диспетчерами, факторинг, отчётность.
+
+## Технологии
+
+- [Vue 3](https://vuejs.org/) (`<script setup>` SFC)
+- [Vite](https://vite.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- GitHub Actions + GitHub Pages (автодеплой)
+
+## Запуск локально
+
+```bash
+npm install
+npm run dev
+```
+
+Сборка и предпросмотр продакшена:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Деплой
+
+Сайт развёрнут на GitHub Pages: <https://digitaiam.github.io/business-systems-site/>.
+
+При каждом `git push` в ветку `main` GitHub Actions собирает проект (`npm run build`) и публикует папку `dist` автоматически (`.github/workflows/deploy.yml`).
+
+## Форма заявки
+
+Заявки с сайта отправляются через [Formspree](https://formspree.io/) на почту компании.
