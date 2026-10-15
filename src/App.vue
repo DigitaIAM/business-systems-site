@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 // Управление активным проектом в модалке / секции кейсов
 const activeProject = ref(null)
@@ -18,6 +18,11 @@ const zoomedImage = ref(null)
 const toggleZoom = (src) => {
   zoomedImage.value = zoomedImage.value === src ? null : src
 }
+
+// Блокировка прокрутки фона при открытой модалке
+watch(activeProject, (project) => {
+  document.body.style.overflow = project ? 'hidden' : ''
+})
 
 // Форма заявки
 const form = ref({ name: '', phone: '', company: '', message: '' })
@@ -87,17 +92,14 @@ const submitForm = async () => {
       <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-200/40 rounded-full blur-[128px] pointer-events-none"></div>
 
       <div class="relative max-w-5xl mx-auto px-6 text-center space-y-8">
-        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-100/80 border border-blue-200 text-blue-700 text-xs font-semibold uppercase tracking-wider">
-          B2B Софт
-        </div>
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight text-slate-900">
-          Интеллектуальное ядро <br class="hidden sm:inline" />
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500">для вашего бизнеса</span>
+          Единое цифровое ядро <br class="hidden sm:inline" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500">для бизнеса</span>
         </h1>
 
         <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-600 leading-relaxed font-normal">
-          Система сама контролирует процессы от склада до кассы, исключая ошибки персонала без долгих месяцев обучения. Полная прозрачность доходов, пересчет остатков в реальном времени и защита от потерь.
+          Тотальный перекрестный контроль персонала и всех процессов от закупа до касс. Предотвращает ошибки персонала. Позволяет работать с неквалифицированным персоналом без долгих месяцев обучения. Полная прозрачность доходов, пересчет остатков в реальном времени и защита от потерь.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -110,10 +112,6 @@ const submitForm = async () => {
 
     <!-- Продукты компании (Флагманские кейсы) -->
     <section id="products" class="min-h-screen flex flex-col justify-center py-24 max-w-7xl mx-auto px-6">
-      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-        <h2 class="text-3xl lg:text-4xl font-extrabold text-slate-900">Флагманские продукты</h2>
-        <p class="text-slate-600">Готовые платформы, разработанные нашей командой</p>
-      </div>
 
       <div class="grid lg:grid-cols-2 gap-10">
 
@@ -128,7 +126,7 @@ const submitForm = async () => {
 
             <!-- Обновленное описание -->
             <p class="text-slate-600 text-sm leading-relaxed">
-              В отличие от тяжелых 1С, SAP или стандартных WMS, Dori.pro — это адаптивное ядро реального времени, которое автоматически планирует закупки и распределяет товар от склада до касс, предотвращая ошибки персонала без долгих месяцев обучения.
+              В отличие от тяжелых 1С, SAP или стандартных WMS, Dori.pro — это адаптивная система, которая в реальном времени автоматически планирует закупки и распределяет товар от склада до касс, предотвращая ошибки персонала. Не требует долгих месяцев обучения.
             </p>
 
             <ul class="space-y-2.5 text-sm text-slate-700">
@@ -176,8 +174,7 @@ const submitForm = async () => {
     <section id="features" class="min-h-screen flex items-center py-24 bg-white border-y border-slate-100">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full uppercase tracking-wider">Наши преимущества</span>
-          <h2 class="text-3xl lg:text-4xl font-extrabold text-slate-900 mt-6">Почему бизнес выбирает наши системы</h2>
+          <h2 class="text-3xl lg:text-4xl font-extrabold text-slate-900 mt-6">Почему бизнес выбирает нас</h2>
           <p class="text-slate-600">Мы заменяем ручной труд, таблицы Excel и хаос в процессах на умные облачные алгоритмы</p>
         </div>
 
@@ -257,9 +254,8 @@ const submitForm = async () => {
     <section id="problems" class="py-24">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full uppercase tracking-wider">Решаем реальные проблемы</span>
-          <h2 class="text-3xl lg:text-4xl font-extrabold text-slate-900 mt-6">С чем сталкивается аптечный бизнес и как мы это исправляем</h2>
-          <p class="text-slate-600">Устраняем хаос, человеческий фактор и финансовые потери на всех уровнях: от закупки до касс</p>
+          <h2 class="text-3xl lg:text-4xl font-extrabold text-slate-900 mt-6 whitespace-nowrap mx-auto w-fit">С чем сталкивается аптечный бизнес</h2>
+          <p class="text-slate-600">Мы устраняем хаос, человеческий фактор и финансовые потери на всех уровнях: от закупа до касс</p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8">
@@ -360,8 +356,41 @@ const submitForm = async () => {
             </div>
           </div>
 
-        </div>
-      </div>
+
+          <!-- Ситуация 7: Аналитика и отчеты в реальном времени -->
+          <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <span class="inline-block mb-3 px-3 py-1 bg-rose-50 text-rose-600 text-xs font-bold rounded-full">Задержки в аналитике</span>
+              <p class="text-slate-600 text-sm leading-relaxed italic">
+                «Построение отчетов занимает часы, менеджмент живет в прошлом и не знает реального положения дел. Сторно и операционные ошибки — постоянная головная боль...»
+              </p>
+              <div class="pt-4 border-t border-slate-100 space-y-2">
+                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Наше решение:</span>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                  Расчет остатков и ключевых показателей происходит в реальном времени. Сторно и правки прошлых периодов обрабатываются автоматически и мгновенно отражаются в отчетах. Руководство может моделировать сценарии «а что если...» и быстро находить причины изменений.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ситуация 8: Интеграция с «зоопарком» систем -->
+          <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl transition flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <span class="inline-block mb-3 px-3 py-1 bg-rose-50 text-rose-600 text-xs font-bold rounded-full">Совместимость с имеющимся софтом</span>
+              <p class="text-slate-600 text-sm leading-relaxed italic">
+                «Вложены миллионы в текущие ERP, CRM, WMS, TMS, но они плохо дружат между собой. Синхронизация сбоит, а сотрудники ведут документы в нескольких системах одновременно...»
+              </p>
+              <div class="pt-4 border-t border-slate-100 space-y-2">
+                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Наше решение:</span>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                  Мы не заставляем отказываться от существующего софта. Система строит надежные мосты и интеграции к имеющимся решениям, объединяя данные и отдавая их бизнесу в удобном виде.
+                </p>
+              </div>
+            </div>
+          </div>
+
+            </div>
+          </div>
     </section>
 
     <!-- Секция заявки -->
@@ -422,7 +451,7 @@ const submitForm = async () => {
 
     <!-- Полноэкранный просмотр изображения -->
     <div v-if="activeImage" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4" @click="closeImage">
-      <div class="relative max-w-5xl w-full max-h-[90vh]">
+      <div class="relative max-w-7xl w-full max-h-[90vh]">
         <button @click="closeImage" class="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-600 hover:bg-slate-200 font-bold shadow-lg z-10">
           ✕
         </button>
@@ -432,7 +461,7 @@ const submitForm = async () => {
 
     <!-- Полноэкранный просмотр изображения -->
     <div v-if="activeImage" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4" @click="closeImage">
-      <div class="relative max-w-5xl w-full max-h-[90vh]">
+      <div class="relative max-w-7xl w-full max-h-[90vh]">
         <button @click="closeImage" class="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-white flex items-center justify-center text-slate-600 hover:bg-slate-200 font-bold shadow-lg z-10">
           ✕
         </button>
@@ -442,14 +471,14 @@ const submitForm = async () => {
 
     <!-- Модальное окно с деталями проекта -->
     <div v-if="activeProject" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" @click.self="closeProject">
-      <div class="bg-white rounded-3xl max-w-4xl w-full p-8 lg:p-10 max-h-[90vh] overflow-y-auto space-y-8 relative shadow-2xl">
+      <div class="bg-white rounded-3xl max-w-7xl w-full p-8 lg:p-10 max-h-[90vh] overflow-y-auto space-y-8 relative shadow-2xl">
         <button @click="closeProject" class="sticky top-0 float-right -mt-2 -mr-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 font-bold z-10">
           ✕
         </button>
 
         <!-- ===================== TRUCKS.LAND ===================== -->
         <div v-if="activeProject === 'trucks'">
-          <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full">Case Study · Логистика & TMS</span>
+          <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full">Логистика & TMS</span>
           <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 mt-3">Trucks.land — система управления грузоперевозками</h2>
           <p class="text-slate-600 mt-3 text-sm leading-relaxed">
             Облачная система (TMS) для управления транспортной компанией: заказы и перевозки, отслеживание статусов в реальном времени,
@@ -519,7 +548,7 @@ const submitForm = async () => {
 
         <!-- ===================== DORI.PRO ===================== -->
         <div v-if="activeProject === 'dori'">
-          <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-full">Case Study · Фармацевтика & Ритейл</span>
+          <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-full">Фармацевтика & Ритейл</span>
           <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 mt-3">Dori.pro — система управления аптечной сетью</h2>
           <p class="text-slate-600 mt-3 text-sm leading-relaxed">
             Единая система управления аптечной сетью, объединяющая работу кассира, склада, закупок, логистики и руководства в одном цифровом контуре.
