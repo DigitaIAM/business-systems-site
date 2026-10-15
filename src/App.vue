@@ -470,8 +470,8 @@ const submitForm = async () => {
     </div>
 
     <!-- Модальное окно с деталями проекта -->
-    <div v-if="activeProject" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4" @click.self="closeProject">
-      <div class="bg-white rounded-3xl max-w-7xl w-full p-8 lg:p-10 max-h-[90vh] overflow-y-auto space-y-8 relative shadow-2xl">
+    <div v-if="activeProject" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4" @click.self="closeProject">
+      <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-7xl w-full p-5 sm:p-8 lg:p-10 max-h-[92vh] sm:max-h-[90vh] overflow-y-auto space-y-6 sm:space-y-8 relative shadow-2xl">
         <button @click="closeProject" class="sticky top-0 float-right -mt-2 -mr-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 font-bold z-10">
           ✕
         </button>
