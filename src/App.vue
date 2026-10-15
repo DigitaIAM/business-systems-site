@@ -26,8 +26,8 @@ watch(activeProject, (project) => {
 
 // Метки проектов и аккордеон для мобильной версии
 const projectLabels = {
-  trucks: 'Trucks.land · Логистика & TMS',
-  dori: 'Dori.pro · Фармацевтика & Ритейл',
+  trucks: 'Логистика & TMS',
+  dori: 'Фармацевтика & Ритейл',
 }
 const projectLabel = computed(() => projectLabels[activeProject.value] || '')
 
@@ -501,8 +501,7 @@ const submitForm = async () => {
 
         <!-- ===================== TRUCKS.LAND ===================== -->
         <div v-if="activeProject === 'trucks'">
-          <span class="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full">Логистика & TMS</span>
-          <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 mt-3">Trucks.land — система управления грузоперевозками</h2>
+          <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900">Trucks.land — система управления грузоперевозками</h2>
           <p class="text-slate-600 mt-3 text-sm leading-relaxed">
             Облачная система (TMS) для управления транспортной компанией: заказы и перевозки, отслеживание статусов в реальном времени,
             взаиморасчёты с владельцами тягачей и диспетчерами, а также прозрачная отчётность. Вся работа — в браузере, без установки, с любого устройства.
@@ -583,8 +582,7 @@ const submitForm = async () => {
 
         <!-- ===================== DORI.PRO ===================== -->
         <div v-if="activeProject === 'dori'">
-          <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-full">Фармацевтика & Ритейл</span>
-          <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 mt-3">Dori.pro — система управления аптечной сетью</h2>
+          <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900">Dori.pro — система управления аптечной сетью</h2>
           <p class="text-slate-600 mt-3 text-sm leading-relaxed">
             Единая система управления аптечной сетью, объединяющая работу кассира, склада, закупок, логистики и руководства в одном цифровом контуре.
             Все данные — остатки, продажи, движения товаров, платежи — хранятся в облаке и доступны в реальном времени: от кассы до рабочего места директора.
