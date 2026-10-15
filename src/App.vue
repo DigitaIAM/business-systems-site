@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed, nextTick, onBeforeUnmount } from 'vue'
 
 // Управление активным проектом в модалке / секции кейсов
 const activeProject = ref(null)
@@ -23,6 +23,25 @@ const toggleZoom = (src) => {
 watch(activeProject, (project) => {
   document.body.style.overflow = project ? 'hidden' : ''
 })
+
+// Метки проектов и аккордеон для мобильной версии
+const projectLabels = {
+  trucks: 'Trucks.land · Логистика & TMS',
+  dori: 'Dori.pro · Фармацевтика & Ритейл',
+}
+const projectLabel = computed(() => projectLabels[activeProject.value] || '')
+
+const accordionQuery = window.matchMedia('(min-width: 640px)')
+const syncAccordions = () => {
+  const open = accordionQuery.matches
+  document.querySelectorAll('details[data-accordion]').forEach((el) => {
+    el.open = open
+  })
+}
+accordionQuery.addEventListener('change', syncAccordions)
+onBeforeUnmount(() => accordionQuery.removeEventListener('change', syncAccordions))
+
+watch(activeProject, () => nextTick(syncAccordions))
 
 // Форма заявки
 const form = ref({ name: '', phone: '', company: '', message: '' })
@@ -254,7 +273,7 @@ const submitForm = async () => {
     <section id="problems" class="py-24">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <h2 class="text-3xl lg:text-4xl font-extrabold text-slate-900 mt-6 whitespace-nowrap mx-auto w-fit">С чем сталкивается аптечный бизнес</h2>
+          <h2 class="text-3xl lg:text-4xl font-extrabold text-slate-900 mt-6">С чем сталкивается <br class="sm:hidden" />аптечный бизнес</h2>
           <p class="text-slate-600">Мы устраняем хаос, человеческий фактор и финансовые потери на всех уровнях: от закупа до касс</p>
         </div>
 
@@ -471,10 +490,14 @@ const submitForm = async () => {
 
     <!-- Модальное окно с деталями проекта -->
     <div v-if="activeProject" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4" @click.self="closeProject">
-      <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-7xl w-full p-5 sm:p-8 lg:p-10 max-h-[92vh] sm:max-h-[90vh] overflow-y-auto space-y-6 sm:space-y-8 relative shadow-2xl">
-        <button @click="closeProject" class="sticky top-0 float-right -mt-2 -mr-2 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 font-bold z-10">
-          ✕
-        </button>
+      <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-7xl w-full max-h-[92vh] sm:max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+        <div class="flex items-center justify-between px-5 sm:px-8 py-4 border-b border-slate-100 shrink-0 bg-white">
+          <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-400">{{ projectLabel }}</span>
+          <button @click="closeProject" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 font-bold transition shrink-0">
+            ✕
+          </button>
+        </div>
+        <div class="overflow-y-auto p-5 sm:p-8 lg:p-10 space-y-6 sm:space-y-8 flex-1 min-h-0">
 
         <!-- ===================== TRUCKS.LAND ===================== -->
         <div v-if="activeProject === 'trucks'">
@@ -486,26 +509,35 @@ const submitForm = async () => {
           </p>
 
           <div class="space-y-8 mt-8">
-            <div>
-              <h4 class="font-bold text-slate-900">Что система даёт клиенту</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Что система даёт клиенту</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <ul class="mt-2 space-y-1.5 text-sm text-slate-700 list-disc list-inside">
                 <li>Единое рабочее место для диспетчеров, менеджеров, владельцев тягачей и руководства.</li>
                 <li>Автоматизация расчётов вместо таблиц Excel: выплаты, комиссии, сверки и отчёты формируются автоматически.</li>
                 <li>Контроль каждой перевозки: от создания заказа до его закрытия и оплаты.</li>
                 <li>Работа в реальном времени: несколько организаций и сотрудников видят актуальные данные одновременно.</li>
               </ul>
-            </div>
+            </details>
 
-            <div>
-              <h4 class="font-bold text-slate-900">Для кого</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Для кого</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <p class="mt-2 text-sm text-slate-700 leading-relaxed">
                 Для транспортных и логистических компаний: диспетчеры, менеджеры по перевозкам, владельцы тягачей, бухгалтерия и руководство.
                 Начать работу просто — достаточно создать учётную запись и организацию.
               </p>
-            </div>
+            </details>
 
-            <div>
-              <h4 class="font-bold text-slate-900">Ключевые возможности</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Ключевые возможности</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <div class="mt-3 grid sm:grid-cols-2 gap-4 text-sm">
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
                   <p class="font-semibold text-blue-700">Заказы и перевозки</p>
@@ -532,17 +564,20 @@ const submitForm = async () => {
                   <p class="text-slate-700">Задачи и рабочий контроль, учёт рабочего времени, расчёт зарплаты. Мультитенантность и разграничение прав доступа между ролями.</p>
                 </div>
               </div>
-            </div>
+            </details>
 
-            <div>
-              <h4 class="font-bold text-slate-900">Преимущества</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Преимущества</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <ul class="mt-2 space-y-1.5 text-sm text-slate-700 list-disc list-inside">
                 <li><b>Облако</b> — доступ из любой точки мира, не нужна установка и серверы.</li>
                 <li><b>Прозрачность</b> — каждый этап и сумма видны, ошибки ручного пересчёта исключены.</li>
                 <li><b>Масштабируемость</b> — подходит и небольшой компании, и сети организаций.</li>
                 <li><b>Экономия времени</b> — автоматические сверки, готовые отчёты и экспорт в Excel/PDF.</li>
               </ul>
-            </div>
+            </details>
           </div>
         </div>
 
@@ -556,8 +591,11 @@ const submitForm = async () => {
           </p>
 
           <div class="space-y-8 mt-8">
-            <div>
-              <h4 class="font-bold text-slate-900">Проблема и решение</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Проблема и решение</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <div class="mt-2 grid sm:grid-cols-2 gap-4 text-sm">
                 <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 space-y-1.5">
                   <p class="font-semibold text-rose-700">Без единой системы</p>
@@ -568,10 +606,13 @@ const submitForm = async () => {
                   <p class="text-slate-700">Каждое движение товара фиксируется автоматически. Потребность аптек рассчитывается по фактическим продажам, а товар распределяется сам с учётом спроса и сроков годности.</p>
                 </div>
               </div>
-            </div>
+            </details>
 
-            <div>
-              <h4 class="font-bold text-slate-900">Ключевое преимущество: анализ потребностей и автораспределение</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Ключевое преимущество: анализ потребностей и автораспределение</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <div class="mt-3 space-y-4 text-sm">
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
                   <p class="font-semibold text-slate-900">Анализ потребностей аптек</p>
@@ -582,10 +623,13 @@ const submitForm = async () => {
                   <p class="text-slate-700">Система сама предлагает, кому и сколько отгрузить: три уровня приоритета, учёт сроков годности, бережное отношение к партиям, исключение повторного распределения, приоритизация аптек с высоким спросом. По результатам — готовые листы отгрузки и задачи для сборщиков.</p>
                 </div>
               </div>
-            </div>
+            </details>
 
-            <div>
-              <h4 class="font-bold text-slate-900">Возможности по модулям</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Возможности по модулям</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <div class="mt-3 grid sm:grid-cols-2 gap-4 text-sm">
                 <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
                   <p class="font-semibold text-emerald-700">POS-касса (продажи)</p>
@@ -620,20 +664,26 @@ const submitForm = async () => {
                   <p class="text-slate-700">Журнал замеров температуры в зонах хранения, единый товарный каталог, справочники, роли и права доступа, настройка состава сети и терминалов.</p>
                 </div>
               </div>
-            </div>
+            </details>
 
-            <div>
-              <h4 class="font-bold text-slate-900">Как это устроено</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Как это устроено</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <ul class="mt-2 space-y-1.5 text-sm text-slate-700 list-disc list-inside">
                 <li>Облачная база данных (HA / PostgreSQL / Supabase) с резервным копированием.</li>
                 <li>Работа в реальном времени и при слабой связи: касса работает даже при сбоях интернета.</li>
                 <li>Безопасность по ролям и шифрование данных, автоматические удалённые обновления.</li>
                 <li>Поддержка оборудования: штрих-сканеры, термопринтеры 58 мм, фискальные и банковские терминалы, весовые платформы.</li>
               </ul>
-            </div>
+            </details>
 
-            <div>
-              <h4 class="font-bold text-slate-900">Выгоды для бизнеса</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Выгоды для бизнеса</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <ul class="mt-2 space-y-1.5 text-sm text-slate-700 list-disc list-inside">
                 <li>Скорость кассы — меньше очередей, больше оборот.</li>
                 <li>Точные остатки в любой момент по любой аптеке — минимум потерь.</li>
@@ -641,21 +691,25 @@ const submitForm = async () => {
                 <li>Меньше списаний благодаря распределению по срокам годности.</li>
                 <li>Прозрачная отчётность и единые процессы для всех точек сети.</li>
               </ul>
-            </div>
+            </details>
 
-            <div>
-              <h4 class="font-bold text-slate-900">Внедрение и поддержка</h4>
+            <details class="group" data-accordion>
+              <summary class="flex items-center justify-between gap-3 list-none cursor-pointer sm:cursor-default sm:pointer-events-none [&::-webkit-details-marker]:hidden">
+                <h4 class="font-bold text-slate-900">Внедрение и поддержка</h4>
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-200 group-open:rotate-180 sm:hidden shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
               <p class="mt-2 text-sm text-slate-700 leading-relaxed">
                 Анализ процессов и настройка под нужды бизнеса, оборудование касс и терминалов, обучение персонала и дальнейшее сопровождение:
                 обновления, обучение новых сотрудников, добавление функционала по мере роста.
               </p>
-            </div>
+            </details>
           </div>
         </div>
 
-        <button @click="closeProject" class="w-full py-3 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-800 transition">
+        <button @click="closeProject" class="hidden sm:block w-full py-3 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-800 transition">
           Закрыть
         </button>
+        </div>
       </div>
     </div>
 
