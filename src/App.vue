@@ -443,8 +443,7 @@ const submitForm = async () => {
         <div class="grid gap-8 lg:grid-cols-2 lg:items-end">
           <div>
             <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">Продукты</p>
-            <h2 class="mt-4 max-w-xl text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-ink sm:text-4xl lg:text-5xl">
-              Два продукта<br />Одна философия
+            <h2 class="mt-4 max-w-xl text-3xl font-medium leading-[1.05] tracking-[-0.035em] text-ink sm:text-4xl lg:text-5xl">Одна философия
             </h2>
           </div>
           <p class="max-w-xl text-sm leading-relaxed text-muted lg:justify-self-end">
