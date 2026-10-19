@@ -7,7 +7,7 @@ const navLinks = [
   { label: 'Проблемы и решения', href: '#problems' },
 ]
 
-const industries = ['Фармацевтика', 'Логистика', 'Ритейл', 'B2B-сервисы']
+const industries = ['Фармацевтики', 'Логистики', 'Ритейла', 'B2B-сервисов']
 
 const mobileMenuOpen = ref(false)
 const closeMobileMenu = () => {
@@ -61,7 +61,7 @@ const features = [
     title: 'Умное автораспределение',
     text: 'Алгоритмы сами рассчитывают потребность точек по истории продаж и распределяют товар по приоритетам («горит», «нужно», «можно») с учётом сроков годности (FEFO).',
     accent: 'sage',
-    icon: 'M13 2 5 13h6l-1 9 8-11h-6l1-9z',
+    icon: 'M12 6a4 4 0 1 1 0 8a4 4 0 1 1 0-8zM10 14c0 1 .3 1.8.8 2.2h2.4c.5-.4.8-1.2.8-2.2M10 17h4M10.5 19.5h3M12 1.5v2M5.4 3.9l1.5 1.5M18.6 3.9l-1.5 1.5M4 10h1.5M18.5 10H20',
   },
   {
     title: 'Автоматизация расчётов',
@@ -79,13 +79,13 @@ const features = [
     title: 'Минимум списаний и потерь',
     text: 'Строгий контроль сроков годности, отслеживание каждой партии от приемки до продажи и предотвращение образования «мертвых» запасов на складах.',
     accent: 'brand',
-    icon: 'M4 7l6 6 4-4 6 6M20 16v-4h-4',
+    icon: 'M22 17 13.5 8.5 8.5 13.5 2 7M16 17h6v-6',
   },
   {
     title: 'Прозрачная отчетность и KPI',
     text: 'Руководство видит актуальные дашборды, показатели эффективности сотрудников, финансовые результаты и экспорт в Excel/PDF в один клик.',
     accent: 'sage',
-    icon: 'M7 3h7l4 4v14H7V3zM14 3v5h5M9 13h6M9 17h6',
+    icon: 'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zM14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8',
   },
 ]
 
@@ -138,7 +138,7 @@ const problems = [
   {
     title: 'Совместимость с имеющимся софтом',
     quote: 'Вложены миллионы в текущие ERP, CRM, WMS, TMS, но они плохо дружат между собой. Синхронизация сбоит, а сотрудники ведут документы в нескольких системах одновременно...',
-    solution: 'Мы не заставляем отказываться от существующего софта. Система строит надежные мосты и интеграции к имеющимся решениям, объединяя данные и отдавая их бизнесу в удобном виде.',
+    solution: 'Мы не вынуждаем отказываться от существующего софта. Система строит надежные мосты и интеграции к имеющимся решениям, объединяя данные и отдавая их бизнесу в удобном виде.',
   },
 ]
 
@@ -424,14 +424,15 @@ const submitForm = async () => {
       <div class="site-container relative border-t border-line py-10">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <p class="text-[11px] font-medium uppercase tracking-[0.18em] text-muted">Создаём системы для</p>
-          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:w-[68%]">
-            <div
-              v-for="industry in industries"
-              :key="industry"
-              class="rounded-xl border border-line bg-white px-4 py-4 text-center text-sm font-medium text-ink"
-            >
-              {{ industry }}
-            </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-2 lg:w-[68%] lg:justify-end">
+            <template v-for="(industry, index) in industries" :key="industry">
+              <span class="text-sm font-medium text-ink">{{ industry }}</span>
+              <span
+                v-if="index < industries.length - 1"
+                class="h-1 w-1 rounded-full bg-line-strong"
+                aria-hidden="true"
+              ></span>
+            </template>
           </div>
         </div>
       </div>
@@ -447,7 +448,7 @@ const submitForm = async () => {
             </h2>
           </div>
           <p class="max-w-xl text-sm leading-relaxed text-muted lg:justify-self-end">
-            Мы заменяем ручной труд, таблицы Excel и хаос в процессах на умные облачные алгоритмы. Каждый продукт решает конкретную задачу отрасли — без лишней сложности.
+            Мы заменяем ручной труд, таблицы Excel и хаос в процессах на умные алгоритмы. Каждый продукт решает конкретную задачу отрасли — без лишней сложности.
           </p>
         </div>
 
@@ -457,8 +458,8 @@ const submitForm = async () => {
             <div class="flex items-start justify-between gap-4">
               <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-canvas text-sage">
                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="4" y="4" width="16" height="16" rx="4" />
-                  <path d="M12 8v8M8 12h8" />
+                  <path d="M10.5 20.5a4.95 4.95 0 0 1-7-7l10-10a4.95 4.95 0 0 1 7 7l-10 10Z" />
+                  <path d="M8.5 8.5l7 7" />
                 </svg>
               </div>
               <span class="rounded-full border border-sage/20 bg-sage/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-sage">
@@ -579,7 +580,7 @@ const submitForm = async () => {
             </h2>
           </div>
           <p class="max-w-xl text-sm leading-relaxed text-muted lg:justify-self-end">
-            Мы убираем человеческий фактор и рутину, оставляя бизнесу прозрачные процессы, точные данные и время на развитие.
+            Мы убираем человеческий фактор и рутину, оставляя бизнесу прозрачные процессы, точные данные и время на принятие решений.
           </p>
         </div>
 
