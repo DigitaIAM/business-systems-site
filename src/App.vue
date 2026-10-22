@@ -671,7 +671,7 @@ const submitForm = async () => {
                 <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
                   <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
                 </span>
-                Ответ в течение 15 минут в рабочее время
+                Ответ в течение рабочего дня
               </li>
               <li class="flex items-start gap-3 text-sm text-muted">
                 <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
@@ -693,7 +693,7 @@ const submitForm = async () => {
                 <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
               </span>
               <h3 class="mt-6 text-xl font-medium tracking-tight text-ink">Заявка успешно отправлена!</h3>
-              <p class="mt-3 max-w-sm text-sm leading-relaxed text-muted">Мы свяжемся с вами в течение следующего рабочего дня.</p>
+              <p class="mt-3 max-w-sm text-sm leading-relaxed text-muted">Мы свяжемся с вами в течение рабочего дня.</p>
               <button
                 type="button"
                 class="mt-8 inline-flex items-center justify-center rounded-full border border-line px-5 py-3 text-sm font-medium text-ink transition hover:border-ink"
