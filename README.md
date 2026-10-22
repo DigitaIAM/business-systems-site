@@ -30,7 +30,7 @@ npm run preview
 
 ## Деплой
 
-Сайт развёрнут на GitHub Pages: <https://digitaiam.github.io/business-systems-site/>.
+Сайт развёрнут на GitHub Pages: <https://digitaiam.com>.
 
 При каждом `git push` в ветку `main` GitHub Actions собирает проект (`npm run build`) и публикует папку `dist` автоматически (`.github/workflows/deploy.yml`).
 
